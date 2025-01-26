@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дневник тренировок</title>
+    <link rel="stylesheet" href="zero.css">
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <div class="bodyAllWrapperContent"> <!-- Оболочка, для всего на странице в ней весь контент -->
+        <div class="bodyButtonWrap"> <!-- Оболочка, для кнопок Календарь Тренировки Статистика -->
+            <div class="version">v1.11</div> <!-- отображает иейрархию версий -->
+            <button class="bodyButton" id="sportCalendar">Календарь</button> <!-- Кнопка на главном экране открывает в sportInfoList контейнер sportCalendarInfo -->
+            <button class="bodyButton" id="sportTraining">Тренировки</button> <!-- Кнопка на главном экране открывает в sportInfoList контейнер sportTrainingInfo -->
+            <button class="bodyButton" id="sportStatistics">Статистика</button> <!-- Кнопка на главном экране открывает в sportInfoList контейнер sportTrainingInfo -->
+        </div>
+        
+
+        <div class="AllWrapperContent" id="sportInfoList"> <!-- Оболочка, главная в ней отображается все происходящее на странице по нажатию Календарь Тренировки Статистика -->
+    
+
+            <div class="WrapperContentSportCalendar" id="sportCalendarInfo"> <!-- Оболочка главная sportCalendarInfo Календарь -->
+                <div id="sportCalendarInfoCalendar"> <!-- Оболочка Календарь -->
+                    <!-- Тут будет Календарь -->
+                    <div class="sportCalendarInfoCalendarWrapper">
+                        <div class="calendar">
+                            <div class="header">
+                                <button id="prevBtn">&lt;</button>
+                                <h2 id="monthYear"></h2>
+                                <button id="nextBtn">&gt;</button>
+                            </div>
+                            <div class="view-toggle">
+                                <button id="selectMonthBtn">Выбрать месяц</button>
+                                <button id="selectYearBtn">Выбрать год</button>
+                            </div>
+                            <div class="days">
+                                <div class="day-header">Пн</div>
+                                <div class="day-header">Вт</div>
+                                <div class="day-header">Ср</div>
+                                <div class="day-header">Чт</div>
+                                <div class="day-header">Пт</div>
+                                <div class="day-header">Сб</div>
+                                <div class="day-header">Вс</div>
+                            </div>
+                            <div class="dates" id="datesContainer"></div>
+                        </div>
+                    
+                        <!-- Модальное окно для выбора месяца -->
+                        <div id="monthModal" class="modal">
+                            <div class="modal-content">
+                                <span id="closeMonthModal" class="close">&times;</span>
+                                <h3>Выберите месяц</h3>
+                                <div class="months">
+                                    <button class="month-btn" data-month="0">Январь</button>
+                                    <button class="month-btn" data-month="1">Февраль</button>
+                                    <button class="month-btn" data-month="2">Март</button>
+                                    <button class="month-btn" data-month="3">Апрель</button>
+                                    <button class="month-btn" data-month="4">Май</button>
+                                    <button class="month-btn" data-month="5">Июнь</button>
+                                    <button class="month-btn" data-month="6">Июль</button>
+                                    <button class="month-btn" data-month="7">Август</button>
+                                    <button class="month-btn" data-month="8">Сентябрь</button>
+                                    <button class="month-btn" data-month="9">Октябрь</button>
+                                    <button class="month-btn" data-month="10">Ноябрь</button>
+                                    <button class="month-btn" data-month="11">Декабрь</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Модальное окно для выбора года -->
+                        <div id="yearModal" class="modal">
+                            <div class="modal-content">
+                                <span id="closeYearModal" class="close">&times;</span>
+                                <h3>Выберите год</h3>
+                                <div class="year-nav">
+                                    <button id="prevYearBtn">&lt;</button>
+                                    <span id="yearDisplay"></span> <!-- Отображение текущего года -->
+                                    <button id="nextYearBtn">&gt;</button>
+                                </div>
+                                <div class="years" id="yearsContainer"></div> <!-- Контейнер для динамических кнопок -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Тут будет Календарь -->
+                </div>
+            
+
+                <div id="sportCalendarInfoTraining"> <!-- Оболочка главная sportCalendarInfoTraining тренировки -->
+                    <button id="sportCalendarInfoTrainingButtonAdd">Добавить тренировку</button> <!-- Кнопка по нажатию открывает модальное окно с доступными программами -->
+                    <div id="sportCalendarInfoTrainingList"></div> <!-- Контейнер для отображения добавленных программ -->
+                    
+                    <!-- модальное окно с добавлением доступных программ -->
+                    <div id="sportCalendarInfoTrainingModalTrainingAdd" class="modalOpenAddTraining">
+                        <div class="sportCalendarInfoTrainingModalTrainingList">
+                            <span class="modalCloseAddTraining">Закрыть</span> <!-- закрывает модальное окно -->
+                            <h2>Доступные программы</h2> <!-- Заголовок -->
+                            <input type="text" id="sportCalendarInfoTrainingModalTrainingSearch" placeholder="Поиск программы" /> <!-- поиск по доступным программам -->
+                            <div id="sportCalendarInfoTrainingModalTrainingInfo"></div> <!-- Контейнер для отображения доступных программ -->
+                            <button id="sportCalendarInfoTrainingModalTrainingButtonAdd">Добавить программу</button> <!-- Кнопка по нажатию добавляет выбранные программы в sportCalendarInfoTrainingList -->
+                        </div>
+                    </div>
+
+                    <!-- модальное окно добавление подхода к упражнению -->
+                    <div id="sportCalendarInfoTrainingModalAddApproachAdd" class="modalOpenExerciseBeingPerformed">
+                        <div class="sportCalendarInfoTrainingModalAddApproachList">
+                            <span class="modalCloseExerciseBeingPerformed">Закрыть</span> <!-- закрывает модальное окно -->
+                            <div id="sportCalendarInfoTrainingModalAddApproachInfo"></div> <!-- Контейнер для отображения упражнения -->
+                            <input type="text" id="sportCalendarInfoTrainingModalAddApproachWeight" placeholder="Вес:"> <!-- вес -->
+                            <input type="text" id="sportCalendarInfoTrainingModalAddApproachRepeat" placeholder="Повторы:"> <!-- Колличество повторов -->
+                            <input type="text" id="sportCalendarInfoTrainingModalAddApproachRest" placeholder="Время отдыха:"> <!-- Время отдыха -->
+                            <input type="text" id="sportCalendarInfoTrainingModalAddApproachComment" placeholder="Коментарий:"> <!-- Коментарий -->
+                            <button id="sportCalendarInfoTrainingModalAddApproachButtonSave">Сохранить</button> <!-- Кнопка по нажатию сохраняет выполненный подход -->
+                            <input type="text" id="sportCalendarInfoTrainingModalAddApproachInfoStorySearch" placeholder="Поиск повторения" /> <!-- поиск по истории выполнения упражнения -->
+                            <div id="sportCalendarInfoTrainingModalAddApproachInfoStory"></div> <!-- Контейнер для отображения истории выполнения упражнения -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="WrapperContentSportTraining" id="sportTrainingInfo"> <!-- Оболочка главная sportTrainingInfo Тренировки -->
+                <div class="SportTrainingButtonWrap"> <!-- Оболочка, для кнопок Программы Упражнения Классы -->
+                    <button id="sportTrainingInfoPrograms">Программы</button> <!-- Кнопка открывает в sportTrainingInfoList контейнер sportTrainingInfoProgramsInfo -->
+                    <button id="sportTrainingInfoExercises">Упражнения</button> <!-- Кнопка открывает в sportTrainingInfoList контейнер sportTrainingInfoExercisesInfo -->
+                    <button id="sportTrainingInfoClasses">Классы</button> <!-- Кнопка открывает в sportTrainingInfoList контейнер sportTrainingInfoClassesInfo -->
+                </div>
+                <div class="ContentSportTrainingWrap" id="sportTrainingInfoList"> <!-- Оболочка главная в ней отображается все происходящее на странице по нажатию Программы Упражнения Классы -->
+                    <div class="sportTrainingInfoProgramsInfo" id="sportTrainingInfoProgramsInfo"> <!-- Оболочка главная sportTrainingInfoProgramsInfo Программы -->
+                        <button id="sportTrainingInfoProgramsButtonAdd">Добавить программу</button> <!-- Кнопка по нажатию открывает sportTrainingInfoProgramsModalAdd -->
+                        <div id="sportTrainingInfoProgramsList"></div> <!-- Контейнер для отображения добавленных программ -->
+                        <div id="sportTrainingInfoProgramsModalAdd" class="modalOpenAddPrograms"> <!-- модальное окно с добавлением программы -->
+                            <div class="sportTrainingInfoProgramsModalList"> <!-- оболочка модального окна --> 
+                                    <span class="modalCloseAddPrograms">Закрыть</span> <!-- закрывает модальное окно -->
+                                    <h2>Добавить программу</h2> <!-- Заголовок -->
+                                    <div id="sportTrainingInfoProgramsModalAvailableExercisesList">
+                                        <h3>Доступные упражнения для программы</h3> <!-- Заголовок -->
+                                        <input type="text" id="sportTrainingInfoProgramsModalAvailableExercisesListSearch" placeholder="Поиск по доступным упражнениям" /> <!-- поиск по доступным упражнениям -->
+                                        <div id="sportTrainingInfoProgramsModalAvailableExercisesListAdd"></div> <!-- Контейнер для отображения доступных упражнений -->
+                                    </div>
+                                    <h3>Добавленные упражнения в программу</h3>
+                                    <input type="text" id="sportTrainingInfoProgramsModalAvailableExercisesAddSearch" placeholder="Поиск по добавленным упражнениям" /> <!-- поиск по доступным упражнениям -->
+                                    <div id="sportTrainingInfoProgramsModalAvailableExercisesAdd"></div> <!-- Контейнер для отображения добавленных упражнений в будущую программу-->
+                                    <label for="sportTrainingInfoProgramsModalTitle">Название добавляемой программы:</label> <!-- Название добавляемой программы -->
+                                    <input type="text" id="sportTrainingInfoProgramsModalTitle" placeholder="Введите название программы"> <!-- название добавляемой программы -->
+                                    <input type="color" id="sportTrainingInfoProgramsModalColor" value="#FFFFFF"> <!-- Выбор цвета -->
+                                    <label for="sportTrainingInfoProgramsModalOpacity">Прозрачность:</label> <!-- Прозрачность -->
+                                    <input type="range" id="sportTrainingInfoProgramsModalOpacity" min="0" max="1" step="0.1" value="0.5"> <!-- Выбор прозрачности -->
+                                    <button id="sportTrainingInfoProgramsModalButtonSave">Сохранить</button> <!-- Кнопка сохранить -->                               
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="sportTrainingInfoExercisesInfo" id="sportTrainingInfoExercisesInfo"> <!-- Оболочка главная sportTrainingInfoExercisesInfo Упражнения -->
+                        <button id="sportTrainingInfoExercisesButtonAdd">Добавить упражнение</button> <!-- Кнопка по нажатию открывает sportTrainingInfoExercisesModalAdd -->
+                        <div id="sportTrainingInfoExercisesList"></div> <!-- Контейнер для отображения добавленных упражнений -->
+                        <div id="sportTrainingInfoExercisesModalAdd" class="modalOpenAddExercises"> <!-- Модальное окно для добавления упражнения -->
+                            <div class="sportTrainingInfoExercisesModalList"> <!-- оболочка модального окна -->
+                                <div class="sportTrainingInfoExercisesModalContentWrap">
+                                    <span class="modalCloseAddExercises">Закрыть</span> <!-- закрывает модальное окно -->
+                                    <h2>Добавить Упражнение</h2> <!-- Заголовок -->
+                                    <div class="sportTrainingInfoExercisesModalListform">
+                                        <label for="sportTrainingInfoExercisesModalTitle">Название:</label> <!-- Название добавляемого упражнения -->
+                                        <input type="text" id="sportTrainingInfoExercisesModalTitle" placeholder="Введите название"> <!-- название добавляемого упражнения -->
+                                        <label for="sportTrainingInfoExercisesModalDescription">Описание:</label> <!-- Описание добавляемого упражнения -->
+                                        <input type="text" id="sportTrainingInfoExercisesModalDescription" placeholder="Введите описание"> <!-- Описание добавляемого упражнения -->
+                                        <label for="sportTrainingInfoExercisesModalClassPrimary">Первичный класс:</label> <!-- Присваеваем первичный класс упражнению -->
+                                        <select id="sportTrainingInfoExercisesModalClassPrimary"></select> <!-- Присваеваем первичный класс упражнению -->
+                                        <label for="sportTrainingInfoExercisesModalClassSecondary">Вторичный класс:</label> <!-- Присваеваем вторичный класс упражнению -->
+                                        <select id="sportTrainingInfoExercisesModalClassSecondary"></select> <!-- Присваеваем вторичный класс упражнению -->
+                                        <div class="sportTrainingInfoExercisesModalListformColorWrap">
+                                            <div class="sportTrainingInfoExercisesModalListformColor"> 
+                                                <input type="color" id="sportTrainingInfoExercisesModalColor" value="#1B72E4"> <!-- Выбор цвета -->
+                                            </div>
+                                            <div class="sportTrainingInfoExercisesModalListformColorOpacityWrap">
+                                                <label for="sportTrainingInfoExercisesModalOpacity">Цвет и прозрачность:</label> <!-- Прозрачность -->
+                                                <input type="range" id="sportTrainingInfoExercisesModalOpacity" min="0" max="1" step="0.1" value="0.5"> <!-- Выбор прозрачности -->
+                                            </div>
+                                        </div>
+                                        <div class="sportTrainingInfoExercisesModalListformButtonWrap">
+                                            <button id="sportTrainingInfoExercisesModalButtonSave">Сохранить</button> <!-- Кнопка сохранить -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="sportTrainingInfoClassesInfo" id="sportTrainingInfoClassesInfo"> <!-- Оболочка главная sportTrainingInfoClassesInfo Классы -->
+                        <button id="sportTrainingInfoClassesButtonAdd">Добавить класс</button> <!-- Кнопка по нажатию отображает модальное окно sportTrainingInfoClassesModalAdd -->
+                        <div class="sportTrainingInfoClassesListWrap" id="sportTrainingInfoClassesList"></div> <!-- Контейнер для отображения всех добавленных классов -->
+    
+                        
+                            <div id="sportTrainingInfoClassesModalAdd" class="modalOpenAddClass"> <!-- модальное окно с добавлением классов -->
+                                <div class="sportTrainingInfoClassesModalList"> <!-- оболочка модального окна -->
+                                    <div class="sportTrainingInfoClassesModalContentWrap">
+                                        <span class="modalCloseAddClass">Закрыть</span> <!-- закрывает модальное окно -->
+                                        <h2>Добавить Класс</h2> <!-- заголовок -->
+                                        <button id="sportTrainingInfoClassesPrimaryAdd">Добавить Первичный Класс</button> <!-- Кнопка по нажатию отображает sportTrainingInfoClassesPrimaryAddModal -->
+                                        <button id="sportTrainingInfoClassesSecondaryAdd">Добавить Вторичный Класс</button> <!-- Кнопка по нажатию отображает sportTrainingInfoClassesSecondaryAddModal -->
+                                        <div class="sportTrainingInfoClassesModalListform" id="sportTrainingInfoClassesPrimaryAddModal" style="display: none;"> <!-- Контейнер добавления первичного класса -->
+                                            <label for="sportTrainingInfoClassesPrimaryAddModalTitle">Название первичного класса:</label> <!-- название добавляемого первичного класса -->
+                                            <input type="text" id="sportTrainingInfoClassesPrimaryAddModalTitle" placeholder="Введите название"> <!-- название добавляемого первичного класса -->
+                                            <div class="sportTrainingInfoClassesModalListformButtonWrap">
+                                                <button id="sportTrainingInfoClassesPrimaryAddModalButtonSave">Сохранить</button> <!-- кнопка сохранить -->
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="sportTrainingInfoClassesModalListform" id="sportTrainingInfoClassesSecondaryAddModal" style="display: none;"> <!-- Контейнер добавления вторичного класса -->
+                                            <label for="sportTrainingInfoClassesPrimaryAddModalSelector">Выберите первичный класс:</label> <!-- название первичного класса к которому добавляется вторичный класс -->
+                                            <select id="sportTrainingInfoClassesPrimaryAddModalSelector"></select> <!-- название первичного класса к которому добавляется вторичный класс -->
+                                            <label for="sportTrainingInfoClassesSecondaryAddTitle">Название вторичного класса:</label> <!-- название добавляемого вторичного класса -->
+                                            <input type="text" id="sportTrainingInfoClassesSecondaryAddTitle" placeholder="Введите название"> <!-- название добавляемого вторичного класса -->
+                                            <div class="sportTrainingInfoClassesModalListformButtonWrap">
+                                                <button id="sportTrainingInfoClassesSecondaryAddModalButtonSave">Сохранить</button> <!-- кнопка сохранить -->
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+    
+    
+            <div class="WrapperContentSportStatistics" id="sportStatisticsInfo"> <!-- Оболочка главная sportStatisticsInfo Статистика -->
+                <div class="SportStatisticsButtonWrap">
+                    <button id="sportStatisticsInfoPrograms">Программы</button> <!-- Кнопка открывает в ???????????? контейнер ???????????? -->
+                    <button id="sportStatisticsInfoExercises">Упражнения</button> <!-- Кнопка открывает в ???????????? контейнер ???????????? -->
+                    <button id="sportStatisticsInfoClasses">Классы</button> <!-- Кнопка открывает в ???????????? контейнер ???????????? -->
+                </div>
+                <div class="ContentSportTrainingWrap" id="sportStatisticsInfoList"> <!-- Оболочка главная в ней отображается все происходящее на странице по нажатию Программы Упражнения Классы -->
+
+                    <!-- будут контейнера с разной статистикой, отображение в зависимости от нажатых кнопок -->
+
+                </div> 
+            </div>
+
+        </div>
+    </div>
+    
+    
+    <script src="scripts.js"></script>
+
+</body>
+</html>
